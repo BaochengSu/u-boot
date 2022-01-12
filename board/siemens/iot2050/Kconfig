@@ -14,6 +14,11 @@ config TARGET_IOT2050_A53
 	select SYS_DISABLE_DCACHE_OPS
 	select BINMAN
 
+config VARIANT_IOT2050_PG2
+	bool "IOT2050 PG2 variant - with AM65x8 SR 2.0 soc"
+	help
+	  To build u-boot for IOT2050 PG2, this option must be enabled.
+
 if TARGET_IOT2050_A53
 
 config SYS_BOARD

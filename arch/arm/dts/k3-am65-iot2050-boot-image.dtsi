@@ -17,7 +17,11 @@
 
 		blob-ext@0x000000 {
 			offset = <0x000000>;
-			filename = "tiboot3.bin";
+#ifdef CONFIG_VARIANT_IOT2050_PG2
+			filename = "tiboot3_sr2.bin";
+#else
+			filename = "tiboot3_sr1.bin";
+#endif
 		};
 
 		blob@0x080000 {
@@ -89,25 +93,23 @@
 			fill-byte = [00];
 		};
 
-		/* PG1 sysfw, basic variant */
+		/* sysfw, basic variant */
 		blob-ext@0x6c0000 {
 			offset = <0x6c0000>;
-			filename = "sysfw.itb";
+#ifdef CONFIG_VARIANT_IOT2050_PG2
+			filename = "sysfw_sr2.itb";
+#else
+			filename = "sysfw_sr1.itb";
+#endif
 		};
-		/* PG1 sysfw, advanced variant */
+		/* sysfw, advanced variant */
 		blob-ext@0x740000 {
 			offset = <0x740000>;
-			filename = "sysfw.itb_HS";
-		};
-		/* PG2 sysfw, basic variant */
-		blob-ext@0x7c0000 {
-			offset = <0x7c0000>;
-			filename = "sysfw_sr2.itb";
-		};
-		/* PG2 sysfw, advanced variant */
-		blob-ext@0x840000 {
-			offset = <0x840000>;
+#ifdef CONFIG_VARIANT_IOT2050_PG2
 			filename = "sysfw_sr2.itb_HS";
+#else
+			filename = "sysfw_sr1.itb_HS";
+#endif
 		};
 	};
 };

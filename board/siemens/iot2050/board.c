@@ -55,14 +55,6 @@ static bool board_is_advanced(void)
 		strstr((char *)info->name, "IOT2050-ADVANCED") != NULL;
 }
 
-static bool board_is_sr1(void)
-{
-	struct iot2050_info *info = IOT2050_INFO_DATA;
-
-	return info->magic == IOT2050_INFO_MAGIC &&
-		!strstr((char *)info->name, "-PG2");
-}
-
 static void remove_mmc1_target(void)
 {
 	char *boot_targets = strdup(env_get("boot_targets"));
@@ -109,15 +101,15 @@ void set_board_info_env(void)
 	}
 
 	if (board_is_advanced()) {
-		if (board_is_sr1())
-			fdtfile = "ti/k3-am6548-iot2050-advanced.dtb";
-		else
+		if (IS_ENABLED(CONFIG_VARIANT_IOT2050_PG2))
 			fdtfile = "ti/k3-am6548-iot2050-advanced-pg2.dtb";
-	} else {
-		if (board_is_sr1())
-			fdtfile = "ti/k3-am6528-iot2050-basic.dtb";
 		else
+			fdtfile = "ti/k3-am6548-iot2050-advanced.dtb";
+	} else {
+		if (IS_ENABLED(CONFIG_VARIANT_IOT2050_PG2))
 			fdtfile = "ti/k3-am6528-iot2050-basic-pg2.dtb";
+		else
+			fdtfile = "ti/k3-am6528-iot2050-basic.dtb";
 		/* remove the unavailable eMMC (mmc1) from the list */
 		remove_mmc1_target();
 	}
