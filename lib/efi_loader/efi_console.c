@@ -472,7 +472,17 @@ static efi_status_t EFIAPI efi_cout_set_attribute(
 static efi_status_t EFIAPI efi_cout_clear_screen(
 			struct efi_simple_text_output_protocol *this)
 {
+	unsigned int row;
+
 	EFI_ENTRY("%p", this);
+
+	/* Avoid overwriting previous outputs on streaming consoles */
+	for (row = 1; row < efi_cout_modes[efi_con_mode.mode].rows; row++)
+		printf("\n");
+
+	/* Set default colors if not done yet */
+	if (efi_con_mode.attribute == 0)
+		efi_cout_set_attribute(this, 0x07);
 
 	/*
 	 * The Linux console wants both a clear and a home command. The video
@@ -531,9 +541,9 @@ static efi_status_t EFIAPI efi_cout_reset(
 {
 	EFI_ENTRY("%p, %d", this, extended_verification);
 
-	/* Set default colors */
-	efi_con_mode.attribute = 0x07;
-	printf(ESC "[0;37;40m");
+	/* Trigger reset to default colors */
+	efi_con_mode.attribute = 0;
+
 	/* Clear screen */
 	EFI_CALL(efi_cout_clear_screen(this));
 
