@@ -63,6 +63,7 @@ obj-$(CONFIG_SPL_SATA) += ata/ scsi/
 obj-$(CONFIG_SPL_LEGACY_BLOCK) += block/
 obj-$(CONFIG_SPL_THERMAL) += thermal/
 obj-$(CONFIG_SPL_VIDEO) +=video/
+obj-$(CONFIG_SPL_SYSINFO) += sysinfo/
 
 endif
 endif
