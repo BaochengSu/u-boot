@@ -27,6 +27,12 @@
 #define EXTRA_ENV_IOT2050_BOARD_SETTINGS				\
 	"usb_pgood_delay=900\0"
 
+#define RPMB_PAIRING_ENV						\
+	"pair_rpmb_key="						\
+		"mmc dev 1;"						\
+		"optee_rpmb write_pvalue paired 1;"			\
+		"optee_rpmb read_pvalue paired 2;\0"
+
 #if CONFIG_IS_ENABLED(CMD_USB)
 # define BOOT_TARGET_USB(func) \
 	func(USB, usb, 0) \
@@ -52,6 +58,7 @@
 	DEFAULT_LINUX_BOOT_ENV						\
 	BOOTENV								\
 	WATCHDOG_ENV							\
+	RPMB_PAIRING_ENV						\
 	EXTRA_ENV_IOT2050_BOARD_SETTINGS
 
 #include <configs/ti_armv7_common.h>
